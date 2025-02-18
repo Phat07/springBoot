@@ -13,9 +13,8 @@ jobs:
     runs-on: self-hosted
     environment: docker
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Run `docker compose`
-        run: docker compose up --build -d
+      - name: Docker Compose Up
+        run: docker compose -f compose.yaml up --build -d
