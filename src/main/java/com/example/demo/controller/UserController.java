@@ -30,6 +30,7 @@ public class UserController {
     }
     
     @GetMapping("/users/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getUserById(@PathVariable String id) {
         try {
             User user = userDetailsService.getUserById(id);
