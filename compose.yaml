@@ -6,7 +6,7 @@ services:
       MYSQL_DATABASE: hairHub
     ports:
       - "3306:3306"
-      - 
+  
   server:
     build:
       context: .
