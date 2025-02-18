@@ -2,6 +2,6 @@ services:
   server:
     build:
       context: .  # Current directory where docker-compose.yaml is located
-      target: final
+      target: final  # Referencing the "final" stage
     ports:
       - "8080:8080"

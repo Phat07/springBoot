@@ -5,8 +5,8 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Final stage using OpenJDK 11
-FROM openjdk:11-jre-slim
+# Final stage using OpenJDK 11 (rename this to "final")
+FROM openjdk:11-jre-slim AS final
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
