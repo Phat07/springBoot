@@ -22,4 +22,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return UserDetailsImpl.build(user);
     }
+
+    public User getUserById(String userId) {
+        return userRepository.findById(userId)
+            .orElseThrow(() -> new UsernameNotFoundException("User Not Found with id: " + userId));
+    }
 }
