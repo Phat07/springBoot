@@ -1,7 +1,7 @@
 services:
-    server:
-      build:
-        context:
-        target: final
-      ports:
-        - 8080:8080
+  server:
+    build:
+      context: .  # Current directory where docker-compose.yaml is located
+      target: final
+    ports:
+      - "8080:8080"
