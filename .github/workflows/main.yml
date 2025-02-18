@@ -9,6 +9,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: hoangphat
+          MYSQL_DATABASE: hairHub
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
     - uses: actions/checkout@v4
@@ -21,7 +30,7 @@ jobs:
         cache: maven
     
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn clean package -Dspring.datasource.url=jdbc:mysql://localhost:3306/testdb -Dspring.datasource.username=root -Dspring.datasource.password=root
     
     - name: Run tests
       run: mvn test
