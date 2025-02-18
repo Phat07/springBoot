@@ -128,6 +128,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<mainClass>com.example.demo.AuthProjectApplication</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>
