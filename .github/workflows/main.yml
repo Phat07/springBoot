@@ -14,7 +14,10 @@ jobs:
     environment: docker
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       
-    - name: Run `dockercompose`
+    - name: Docker Compose Up
       run: docker compose up --build -d
+      env:
+        DOCKER_HOST: tcp://localhost:8080
+        DOCKER_TLS_VERIFY: 0
