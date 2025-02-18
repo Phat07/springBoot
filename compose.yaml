@@ -1,7 +1,21 @@
 services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: hoangphat
+      MYSQL_DATABASE: hairHub
+    ports:
+      - "3306:3306"
+      - 
   server:
     build:
-      context: .  # Current directory where docker-compose.yaml is located
-      target: final  # Referencing the "final" stage
+      context: .
+      target: final
     ports:
       - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/hairHub
+      SPRING_DATASOURCE_USERNAME: root 
+      SPRING_DATASOURCE_PASSWORD: hoangphat
+    depends_on:
+      - mysql
