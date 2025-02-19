@@ -2,16 +2,18 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: hairhub-mysql
+    container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: hoangphat
+      MYSQL_DATABASE: hairHub
+      MYSQL_USER: root
+      MYSQL_PASSWORD: hoangphat
     ports:
-      - "${DB_PORT}:3306"
+      - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
-      - hairhub-network
+      - spring-network
     command: --default-authentication-plugin=mysql_native_password
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
@@ -19,22 +21,22 @@ services:
       timeout: 5s
       retries: 5
   
-  server:
+  spring-app:
     build:
       context: .
       target: final
-    container_name: hairhub-app
+    container_name: spring-app
     ports:
-      - "${SERVER_PORT}:8080"
+      - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${DB_NAME}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/hairHub?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: hoangphat
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
-      SERVER_SSL_ENABLED: "false"
     networks:
-      - hairhub-network
+      - spring-network
     depends_on:
       mysql:
         condition: service_healthy
@@ -43,5 +45,5 @@ volumes:
   mysql-data:
 
 networks:
-  hairhub-network:
+  spring-network:
     driver: bridge
