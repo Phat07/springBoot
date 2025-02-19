@@ -1,12 +1,13 @@
+version: '3.8'
 services:
   mysql:
     image: mysql:8.0
     container_name: hairhub-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: hoangphat
-      MYSQL_DATABASE: hairHub
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
     ports:
-      - "3307:3306"
+      - "${DB_PORT}:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
@@ -24,11 +25,11 @@ services:
       target: final
     container_name: hairhub-app
     ports:
-      - "8080:8080"
+      - "${SERVER_PORT}:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/hairHub
-      SPRING_DATASOURCE_USERNAME: root 
-      SPRING_DATASOURCE_PASSWORD: hoangphat
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${DB_NAME}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       SERVER_SSL_ENABLED: "false"
