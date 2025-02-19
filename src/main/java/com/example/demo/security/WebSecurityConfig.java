@@ -55,17 +55,7 @@ public class WebSecurityConfig {
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/static/**").permitAll()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/test/**").permitAll()
-                .antMatchers("/swagger-ui/**", 
-                           "/v3/api-docs/**",
-                           "/swagger-resources/**",
-                           "/swagger-ui.html",
-                           "/webjars/**").permitAll()
-                .antMatchers("/error").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
