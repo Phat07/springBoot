@@ -12,4 +12,5 @@ public class UserTokenResponse {
         this.user = user;
         this.token = token;
     }
+    
 }
